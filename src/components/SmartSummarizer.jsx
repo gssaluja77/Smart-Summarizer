@@ -78,12 +78,10 @@ export default function SmartSummarizer() {
         );
 
         const data = await res.json();
-        console.log(data);
         const content = data.choices[0].message.content;
         setResponse(content);
         chrome.storage.local.set({ lastSummary: content });
-      } catch (error) {
-        console.log(error);
+      } catch {
         setResponse("❌ Could not extract or summarize this page!");
       }
 
