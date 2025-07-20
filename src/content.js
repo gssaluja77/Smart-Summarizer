@@ -9,7 +9,7 @@ const extractText = () => {
   return allParas.join("\n");
 };
 
-chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((req, _sender, sendResponse) => {
   if (req.type === "GET_ARTICLE_TEXT") {
     const extractedText = extractText();
     sendResponse({ extractedText });
