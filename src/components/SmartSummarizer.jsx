@@ -11,6 +11,7 @@ export default function SmartSummarizer() {
     const [loading, setLoading] = useState(false);
     const [copied, setCopied] = useState(false);
     const [type, setType] = useState("concise");
+    const [messageOnDelay, setMessageOnDelay] = useState(null);
 
     useEffect(() => {
       chrome.storage.local.get(["lastSummary"], (result) => {
@@ -47,6 +48,11 @@ export default function SmartSummarizer() {
           });
         });
       };
+      const ifDelayed = setTimeout(() => {
+        setMessageOnDelay(
+          "Hang on! Some pages can take slightly longer to process..."
+        );
+      }, 5000);
 
       try {
         const tempQuery = await getPageText();
@@ -85,6 +91,8 @@ export default function SmartSummarizer() {
         setResponse("❌ Could not extract or summarize this page!");
       }
 
+      setMessageOnDelay(null);
+      clearTimeout(ifDelayed);
       setLoading(false);
     };
 
@@ -154,6 +162,11 @@ export default function SmartSummarizer() {
               </div>
             </div>
 
+            {messageOnDelay && (
+              <div className="max-h-96 overflow-auto whitespace-pre-wrap p-5">
+                <ReactMarkdown>{messageOnDelay}</ReactMarkdown>
+              </div>
+            )}
             {response ? (
               <div className="max-h-96 overflow-auto whitespace-pre-wrap p-5">
                 <ReactMarkdown>{response}</ReactMarkdown>
