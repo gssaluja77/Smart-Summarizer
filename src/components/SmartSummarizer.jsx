@@ -50,7 +50,7 @@ export default function SmartSummarizer() {
       };
       const ifDelayed = setTimeout(() => {
         setMessageOnDelay(
-          "Hang on! Some pages can take slightly longer to process..."
+          "⏳ Hang on! Some pages can take slightly longer to process..."
         );
       }, 5000);
 
