@@ -64,9 +64,13 @@ export default function SmartSummarizer() {
           tempQuery;
       } else if (type === "detailed") {
         prompt = "Give a detailed summary of the following:\n\n" + tempQuery;
-      } else {
+      } else if (type === "bullets") {
         prompt =
           "Give a summary of the following in bullet points (like highlights):\n\n" +
+          tempQuery;
+      } else {
+        prompt =
+          "I am applying for the role of Software Engineer whose about page contains the following. Tell me how to answer the question 'Why are you interested in working here?' in a short paragraph (3-4 lines):\n\n" +
           tempQuery;
       }
 
@@ -124,6 +128,7 @@ export default function SmartSummarizer() {
             <option value="concise">Concise</option>
             <option value="detailed">Detailed</option>
             <option value="bullets">Bullets</option>
+            <option value="about">About Company</option>
           </select>
           <button
             onClick={handleSummarize}
