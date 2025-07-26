@@ -13,16 +13,19 @@ export default function SmartSummarizer() {
   const [type, setType] = useState("concise");
   const [messageOnDelay, setMessageOnDelay] = useState(null);
   const [typedText, setTypedText] = useState("");
+  const [fetchedLocally, setFetchedLocally] = useState(false);
 
   useEffect(() => {
     chrome.storage.local.get(["lastSummary"], (result) => {
       if (result.lastSummary) {
         setResponse(result.lastSummary);
+        setFetchedLocally(true);
       }
     });
   }, []);
 
   const handleSummarize = async () => {
+    setFetchedLocally(false);
     setLoading(true);
     setResponse("");
 
@@ -142,6 +145,7 @@ export default function SmartSummarizer() {
               setCopied(false);
               setLoading(false);
               chrome.storage.local.remove("lastSummary");
+              setFetchedLocally(false);
             }}
             className="ml-2 p-1 border rounded-md shadow-2xl bg-green-400 hover:cursor-pointer"
           >
@@ -174,10 +178,16 @@ export default function SmartSummarizer() {
             </div>
           )}
           {response ? (
-            <div className="max-h-96 overflow-auto whitespace-pre-wrap p-5">
-              <Typewriter text={response} onChange={setTypedText} />
-              <ReactMarkdown>{typedText}</ReactMarkdown>
-            </div>
+            !fetchedLocally ? (
+              <div className="max-h-96 overflow-auto whitespace-pre-wrap p-5">
+                <Typewriter text={response} onChange={setTypedText} />
+                <ReactMarkdown>{typedText}</ReactMarkdown>
+              </div>
+            ) : (
+              <div className="max-h-96 overflow-auto whitespace-pre-wrap p-5">
+                <ReactMarkdown>{response}</ReactMarkdown>
+              </div>
+            )
           ) : (
             !loading && (
               <div className="text-gray-400 max-h-96 overflow-auto whitespace-pre-wrap p-5">
