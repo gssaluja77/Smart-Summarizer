@@ -20,11 +20,13 @@ export default function SmartSummarizer() {
       if (result.lastSummary) {
         setResponse(result.lastSummary);
         setFetchedLocally(true);
+        setFetchedLocally(true);
       }
     });
   }, []);
 
   const handleSummarize = async () => {
+    setFetchedLocally(false);
     setFetchedLocally(false);
     setLoading(true);
     setResponse("");
@@ -177,16 +179,14 @@ export default function SmartSummarizer() {
             </div>
           )}
           {response ? (
-            !fetchedLocally ? (
-              <div className="max-h-96 overflow-auto whitespace-pre-wrap p-5">
+            <div className="max-h-96 overflow-auto whitespace-pre-wrap p-5">
+              {!fetchedLocally && (
                 <Typewriter text={response} onChange={setTypedText} />
-                <ReactMarkdown>{typedText}</ReactMarkdown>
-              </div>
-            ) : (
-              <div className="max-h-96 overflow-auto whitespace-pre-wrap p-5">
-                <ReactMarkdown>{response}</ReactMarkdown>
-              </div>
-            )
+              )}
+              <ReactMarkdown>
+                {!fetchedLocally ? typedText : response}
+              </ReactMarkdown>
+            </div>
           ) : (
             !loading && (
               <div className="text-gray-400 max-h-96 overflow-auto whitespace-pre-wrap p-5">
