@@ -13,16 +13,19 @@ export default function SmartSummarizer() {
   const [type, setType] = useState("concise");
   const [messageOnDelay, setMessageOnDelay] = useState(null);
   const [typedText, setTypedText] = useState("");
+  const [fetchedLocally, setFetchedLocally] = useState(false);
 
   useEffect(() => {
     chrome.storage.local.get(["lastSummary"], (result) => {
       if (result.lastSummary) {
         setResponse(result.lastSummary);
+        setFetchedLocally(true);
       }
     });
   }, []);
 
   const handleSummarize = async () => {
+    setFetchedLocally(false);
     setLoading(true);
     setResponse("");
 
@@ -169,8 +172,12 @@ export default function SmartSummarizer() {
           )}
           {response ? (
             <div className="max-h-96 overflow-auto whitespace-pre-wrap p-5">
-              <Typewriter text={response} onChange={setTypedText} />
-              <ReactMarkdown>{typedText}</ReactMarkdown>
+              {!fetchedLocally && (
+                <Typewriter text={response} onChange={setTypedText} />
+              )}
+              <ReactMarkdown>
+                {!fetchedLocally ? typedText : response}
+              </ReactMarkdown>
             </div>
           ) : (
             !loading && (
