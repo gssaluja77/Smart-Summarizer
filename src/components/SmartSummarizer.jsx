@@ -20,13 +20,11 @@ export default function SmartSummarizer() {
       if (result.lastSummary) {
         setResponse(result.lastSummary);
         setFetchedLocally(true);
-        setFetchedLocally(true);
       }
     });
   }, []);
 
   const handleSummarize = async () => {
-    setFetchedLocally(false);
     setFetchedLocally(false);
     setLoading(true);
     setResponse("");
