@@ -25,9 +25,9 @@ export default function SmartSummarizer() {
   }, []);
 
   const handleSummarize = async () => {
+    setResponse("");
     setFetchedLocally(false);
     setLoading(true);
-    setResponse("");
 
     const getPageText = () => {
       return new Promise((resolve, reject) => {
