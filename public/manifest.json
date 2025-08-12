@@ -4,7 +4,7 @@
   "version": "1.2",
   "description": "Get a customized summary of any web page.",
 
-  "permissions": ["scripting", "activeTab", "storage"],
+  "permissions": ["activeTab", "storage"],
 
   "action": {
     "default_popup": "popup.html",
