@@ -116,7 +116,9 @@ export default function SmartSummarizer() {
   return (
     <div className="flex justify-center">
       <div>
-        <h1 className="m-4 font-bold text-2xl my-2 text-gray-100">Smart Summarizer</h1>
+        <h1 className="m-4 font-bold text-2xl my-2 text-gray-100">
+          Smart Summarizer
+        </h1>
         <div className="m-4">
           <select
             value={type}
@@ -148,7 +150,12 @@ export default function SmartSummarizer() {
         <div className="w-110 h-110 my-4 text-gray-100">
           <div className="flex justify-between">
             <div className="p-5 flex justify-center">
-              {loading && <LoadingSpinner />}
+              {loading && (
+                <>
+                  <LoadingSpinner />
+                  <p className="text-gray-400 text-md pl-1 pt-1">Summarizing...</p>
+                </>
+              )}
             </div>
             <div className="p-5 flex justify-end">
               {copied ? (
